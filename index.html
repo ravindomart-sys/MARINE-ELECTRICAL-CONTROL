@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Electrical & Control Kapal | Rafael Sukirno, CE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Barlow+Condensed:wght@300;400;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #030d1a;
+  --navy2: #071428;
+  --navy3: #0a1f3d;
+  --panel: #0d2545;
+  --panel2: #102d52;
+  --cyan: #00d4ff;
+  --cyan2: #00a8cc;
+  --gold: #ffc107;
+  --gold2: #e6a800;
+  --green: #00ff88;
+  --red: #ff3b3b;
+  --orange: #ff8c00;
+  --white: #e8f4f8;
+  --muted: #7a9ab8;
+  --border: rgba(0,212,255,0.2);
+  --border2: rgba(0,212,255,0.5);
+  --glow: 0 0 20px rgba(0,212,255,0.3);
+  --shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── GRID BG ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ══════════════════ HEADER ══════════════════ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(180deg, rgba(3,13,26,0.98) 0%, rgba(3,13,26,0.9) 100%);
+  border-bottom: 2px solid var(--cyan2);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  backdrop-filter: blur(12px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan2) 100%);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.logo-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+.logo-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 3px;
+}
+
+.nav-status {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ══════════════════ HERO ══════════════════ */
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 60px 2rem 40px;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-tag {
+  display: inline-block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  letter-spacing: 4px;
+  border: 1px solid var(--border2);
+  padding: 4px 16px;
+  margin-bottom: 20px;
+  background: rgba(0,212,255,0.05);
+}
+.hero h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+.hero p {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--cyan);
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ══════════════════ SECTION TITLE ══════════════════ */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+.section-title h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan2), transparent);
+}
+
+/* ══════════════════ SYSTEM GRID ══════════════════ */
+.systems-section {
+  padding: 20px 2rem 60px;
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.systems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.sys-card {
+  background: linear-gradient(145deg, var(--panel) 0%, var(--navy3) 100%);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.sys-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: var(--card-accent, var(--cyan));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.sys-card:hover {
+  border-color: var(--card-accent, var(--cyan));
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px var(--card-glow, rgba(0,212,255,0.15));
+}
+.sys-card:hover::before { transform: scaleX(1); }
+
+.sys-card .card-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+.sys-card .card-num {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  position: absolute;
+  top: 12px; right: 16px;
+}
+.sys-card .card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+.sys-card .card-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+.sys-card .card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.tag {
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.2);
+  color: var(--cyan);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.tag.gold { background: rgba(255,193,7,0.1); border-color: rgba(255,193,7,0.3); color: var(--gold); }
+.tag.red { background: rgba(255,59,59,0.1); border-color: rgba(255,59,59,0.3); color: var(--red); }
+.tag.green { background: rgba(0,255,136,0.1); border-color: rgba(0,255,136,0.3); color: var(--green); }
+
+/* ══════════════════ MODAL ══════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3,13,26,0.92);
+  z-index: 1000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  backdrop-filter: blur(6px);
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--navy2);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 960px;
+  position: relative;
+  animation: modalIn 0.3s ease;
+  margin: auto;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(90deg, rgba(0,212,255,0.05) 0%, transparent 100%);
+}
+.modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.modal-icon { font-size: 36px; }
+.modal-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+}
+.modal-subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  margin-top: 4px;
+}
+.modal-close {
+  width: 36px; height: 36px;
+  background: rgba(255,59,59,0.1);
+  border: 1px solid rgba(255,59,59,0.3);
+  border-radius: 4px;
+  color: var(--red);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.modal-close:hover { background: rgba(255,59,59,0.3); }
+
+/* Modal Tabs */
+.modal-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.modal-tabs::-webkit-scrollbar { display: none; }
+.mtab {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  background: transparent;
+  border-top: none; border-left: none; border-right: none;
+}
+.mtab:hover { color: var(--white); }
+.mtab.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  background: rgba(0,212,255,0.05);
+}
+
+/* Modal Content */
+.modal-body {
+  padding: 24px 28px;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Content blocks */
+.content-block {
+  margin-bottom: 24px;
+}
+.block-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.block-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0,212,255,0.3), transparent);
+}
+.content-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #c8dde8;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.info-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+.info-item-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.info-item-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cyan);
+}
+
+/* Signal Flow Diagram */
+.diagram-container {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  overflow-x: auto;
+  margin-top: 12px;
+}
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+  flex-wrap: wrap;
+}
+.flow-node {
+  background: var(--panel2);
+  border: 2px solid var(--border2);
+  border-radius: 4px;
+  padding: 10px 16px;
+  text-align: center;
+  min-width: 100px;
+}
+.flow-node.sensor { border-color: #00ff88; }
+.flow-node.controller { border-color: var(--cyan); }
+.flow-node.actuator { border-color: var(--gold); }
+.flow-node.alarm { border-color: var(--red); }
+.flow-node.power { border-color: #ffffff; }
+
+.flow-node-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.flow-node-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.flow-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 4px;
+  gap: 2px;
+}
+.flow-arrow-line {
+  height: 2px;
+  width: 40px;
+}
+.flow-arrow-label {
+  font-size: 9px;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.arrow-power .flow-arrow-line { background: #ffffff; }
+.arrow-control .flow-arrow-line { background: var(--cyan); }
+.arrow-feedback .flow-arrow-line { background: var(--green); }
+.arrow-alarm .flow-arrow-line { background: var(--red); }
+
+/* Signal Legend */
+.signal-legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.sig-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.sig-line {
+  width: 30px; height: 3px;
+  border-radius: 2px;
+}
+
+/* Case Study */
+.case-study {
+  background: linear-gradient(135deg, rgba(255,59,59,0.06) 0%, rgba(3,13,26,0) 100%);
+  border: 1px solid rgba(255,59,59,0.2);
+  border-left: 4px solid var(--red);
+  border-radius: 0 4px 4px 0;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+.case-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.case-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.case-steps li {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  color: #c8dde8;
+  line-height: 1.5;
+}
+.case-steps li::before {
+  content: attr(data-n);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  background: rgba(255,193,7,0.1);
+  border: 1px solid rgba(255,193,7,0.3);
+  min-width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Quiz */
+.quiz-container { display: flex; flex-direction: column; gap: 20px; }
+.quiz-q {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 20px;
+}
+.quiz-question {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  line-height: 1.5;
+  color: var(--white);
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.quiz-option {
+  background: rgba(0,212,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--muted);
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+}
+.quiz-option:hover:not(.answered) {
+  border-color: var(--cyan2);
+  color: var(--white);
+}
+.quiz-option.correct {
+  border-color: var(--green);
+  background: rgba(0,255,136,0.1);
+  color: var(--green);
+}
+.quiz-option.wrong {
+  border-color: var(--red);
+  background: rgba(255,59,59,0.1);
+  color: var(--red);
+}
+.quiz-feedback {
+  display: none;
+  margin-top: 10px;
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  line-height: 1.5;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+.quiz-feedback.wrong { background: rgba(255,59,59,0.1); color: #ff9494; border: 1px solid rgba(255,59,59,0.2); }
+
+/* Simulation */
+.sim-container {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+}
+.sim-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.sim-status-board {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px;
+}
+.sim-board-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.sim-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 12px;
+}
+.sim-indicator:last-child { border-bottom: none; }
+.sim-indicator-label { color: var(--muted); }
+.sim-value {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  color: var(--green);
+}
+.sim-value.warn { color: var(--gold); }
+.sim-value.alarm { color: var(--red); animation: blink 0.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.sim-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.sim-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.sim-btn.primary {
+  background: linear-gradient(135deg, var(--cyan2), var(--cyan));
+  color: var(--navy);
+}
+.sim-btn.danger {
+  background: linear-gradient(135deg, #c00, var(--red));
+  color: #fff;
+}
+.sim-btn.warning {
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  color: var(--navy);
+}
+.sim-btn.reset {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.sim-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
+
+.sim-log {
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  height: 120px;
+  overflow-y: auto;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.log-entry { display: flex; gap: 10px; }
+.log-time { color: var(--muted); flex-shrink: 0; }
+.log-normal { color: var(--green); }
+.log-warn { color: var(--gold); }
+.log-alarm { color: var(--red); }
+
+/* Protection list */
+.protection-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.prot-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 0 4px 4px 0;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.prot-name {
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.prot-desc {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ══════════════════ FOOTER ══════════════════ */
+footer {
+  position: relative;
+  z-index: 1;
+  background: var(--navy2);
+  border-top: 1px solid var(--border);
+  padding: 24px 2rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 8px;
+}
+.footer-credit {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.footer-tagline {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: rgba(122,154,184,0.5);
+  letter-spacing: 3px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--navy2); }
+::-webkit-scrollbar-thumb { background: var(--panel2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cyan2); }
+
+@media (max-width: 768px) {
+  .sim-panel { grid-template-columns: 1fr; }
+  .modal { margin: 10px; }
+  .hero h1 { font-size: 28px; }
+  header { padding: 0 1rem; }
+  .nav-status { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <div>
+      <div class="logo-text">MARINE ELEC-SYS</div>
+      <div class="logo-sub">EDUCATIONAL PLATFORM v2.0</div>
+    </div>
+  </div>
+  <div class="nav-status">
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      SYSTEM ONLINE
+    </div>
+    <div class="status-badge" style="color: var(--gold)">
+      MV NUSANTARA JAYA | 50,000 DWT
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">⚡ MARINE ENGINEERING EDUCATION PLATFORM</div>
+  <h1>Sistem Electrical &amp; Control Kapal</h1>
+  <p>Platform pembelajaran interaktif sistem kelistrikan dan kontrol permesinan kapal untuk taruna teknika. Berbasis kapal referensi <strong>MV Nusantara Jaya</strong> — 50,000 DWT Bulk Carrier.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Sistem Kapal</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Studi Kasus</div></div>
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Quiz Soal</div></div>
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Simulasi</div></div>
+  </div>
+</section>
+
+<!-- SYSTEMS GRID -->
+<section class="systems-section">
+  <div class="section-title">
+    <h2>Pilih Sistem untuk Dipelajari</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="systems-grid" id="systemsGrid"></div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
+  <div class="modal" id="mainModal">
+    <div class="modal-header" id="modalHeader">
+      <div class="modal-title-group">
+        <div class="modal-icon" id="modalIcon"></div>
+        <div>
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-subtitle" id="modalSubtitle"></div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-tabs" id="modalTabs"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">⚡ MARINE ELECTRICAL & CONTROL SYSTEMS</div>
+  <div class="footer-credit">Dibuat oleh <strong style="color:var(--cyan)">Rafael Sukirno, CE</strong> — Marine Engineering Instructor</div>
+  <div class="footer-credit" style="margin-top:4px;font-size:12px">Politeknik Pelayaran Surabaya (POLTEKPEL) | Universitas Hang Tuah (UHT) Surabaya</div>
+  <div class="footer-tagline">MV NUSANTARA JAYA · 50,000 DWT BULK CARRIER · REFERENCE VESSEL</div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA SYSTEMS
+// ══════════════════════════════════════════
+const systems = [
+  {
+    id: 1,
+    icon: "🔧",
+    title: "Main Engine System",
+    sub: "PROPULSION & CONTROL",
+    accent: "#00d4ff",
+    glow: "rgba(0,212,255,0.15)",
+    tags: ["ECU", "Sensor", "Trip"],
+    subtitle: "MAIN ENGINE SYSTEM",
+    overview: `Main Engine pada MV Nusantara Jaya adalah <strong>Diesel Engine 2-Stroke Low Speed</strong> yang berfungsi sebagai penggerak utama kapal. Engine ini dikendalikan oleh <strong>Engine Control Unit (ECU)</strong> yang memonitor seluruh parameter operasi secara real-time. Sistem kelistrikan Main Engine mencakup sirkuit starting, sistem monitoring, dan sistem safety trip yang terintegrasi.`,
+    elec: {
+      source: "440V AC / 24V DC Battery",
+      motor: "Starting Air System + Turning Gear Motor",
+      panel: "Engine Control Console (ECC), Local Control Panel",
+      proteksi: [
+        { name: "Overspeed Trip", desc: "Trip pada RPM melebihi 115% nominal" },
+        { name: "Low Lube Oil Pressure", desc: "Trip pada tekanan L.O. < 2.5 bar" },
+        { name: "High Jacket Water Temp", desc: "Alarm/Trip pada suhu JW > 90°C" },
+        { name: "High Exhaust Temp", desc: "Alarm individual cylinder >450°C" },
+        { name: "Turbocharger Surge", desc: "Trip proteksi turbocharger" },
+      ]
+    },
+    control: {
+      sensor: "Temp (JW, Exhaust), Pressure (L.O., F.O., Scav. Air), Speed (RPM), Vibration",
+      controller: "MAN B&W ECOS / Wärtsilä UNIC - Engine Control Unit (ECU)",
+      actuator: "Fuel Injection Valve, Exhaust Valve Actuator, Starting Air Valve, Turning Gear",
+      alarm: "Pre-alarm (visual/audible) → Slowdown → Shutdown otomatis"
+    },
+    flow: [
+      { type: "power", label: "Shore/Generator", sub: "440V AC" },
+      { arrow: "power", label: "Power" },
+      { type: "controller", label: "ECU/ECC", sub: "Engine Control Unit" },
+      { arrow: "control", label: "Control" },
+      { type: "actuator", label: "Fuel Valve\nActuator", sub: "Pneumatic" },
+      { arrow: "feedback", label: "Feedback" },
+      { type: "sensor", label: "Sensors", sub: "Temp/Press/Speed" },
+      { arrow: "alarm", label: "Alarm" },
+      { type: "alarm", label: "Alarm Panel", sub: "ECR/Bridge" },
+    ],
+    cases: [
+      {
+        title: "🚨 Main Engine Tiba-Tiba Slowdown",
+        steps: [
+          "Periksa Alarm Panel ECR — identifikasi parameter mana yang trigger slowdown",
+          "Cek tekanan Lube Oil di L.O. pressure gauge (min. 2.5 bar pada full load)",
+          "Periksa suhu Jacket Water Cooling (max 88°C normal operasi)",
+          "Cek sensor L.O. pressure — kemungkinan sensor rusak atau L.O. pump masalah",
+          "Reset alarm setelah kondisi normal — laporkan ke Chief Engineer"
+        ]
+      },
+      {
+        title: "⚠️ Overspeed Trip — Engine Mati Mendadak",
+        steps: [
+          "Jangan panik — ini sistem safety bekerja otomatis",
+          "Informasikan Bridge segera — kapal kehilangan propulsi",
+          "Periksa kondisi Governor dan Fuel Rack linkage",
+          "Cek speed sensor — kemungkinan sinyal palsu dari sensor rusak",
+          "Setelah investigasi selesai, reset trip dan lakukan slow turning sebelum start ulang"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Apa fungsi utama ECU pada Main Engine?", opts: ["Hanya memonitor RPM", "Mengontrol dan memonitor seluruh parameter operasi engine secara terintegrasi", "Menghidupkan dan mematikan engine saja", "Mengatur distribusi listrik kapal"], correct: 1, explain: "ECU (Engine Control Unit) adalah komputer kontrol yang mengintegrasikan monitoring parameter, kontrol bahan bakar, sistem alarm, dan proteksi safety trip pada main engine." },
+      { q: "Pada tekanan Lube Oil berapa Main Engine akan melakukan automatic shutdown?", opts: ["Di bawah 4.0 bar", "Di bawah 2.5 bar", "Di bawah 1.0 bar", "Di atas 6.0 bar"], correct: 1, explain: "Low L.O. pressure trip biasanya diset pada 2.5 bar. Di bawah nilai ini, engine akan automatic shutdown untuk mencegah kerusakan bearing." },
+      { q: "Apa yang dimaksud 'Slowdown' pada sistem proteksi Main Engine?", opts: ["Engine mati total", "RPM dikurangi secara otomatis karena parameter mendekati batas kritis", "Engine berjalan mundur", "Sistem alarm berbunyi saja"], correct: 1, explain: "Slowdown adalah respons proteksi bertahap — engine mengurangi RPM otomatis sebelum kondisi mencapai level shutdown, memberi waktu Engineer untuk investigasi." }
+    ],
+    sim: {
+      indicators: [
+        { label: "RPM", val: "120", unit: "rpm", status: "normal" },
+        { label: "L.O. Pressure", val: "3.8", unit: "bar", status: "normal" },
+        { label: "JW Temperature", val: "82", unit: "°C", status: "normal" },
+        { label: "Exhaust Avg", val: "380", unit: "°C", status: "normal" },
+        { label: "Fuel Rack", val: "62", unit: "%", status: "normal" },
+        { label: "Turbo RPM", val: "18500", unit: "rpm", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate Low L.O. Pressure", type: "danger", action: "loPress" },
+        { label: "🟡 Simulate High JW Temp", type: "warning", action: "highJW" },
+        { label: "🔴 Simulate Overspeed", type: "danger", action: "overspeed" },
+      ]
+    }
+  },
+  {
+    id: 2,
+    icon: "⚙️",
+    title: "Auxiliary Machinery",
+    sub: "PUMPS & MOTORS",
+    accent: "#00ff88",
+    glow: "rgba(0,255,136,0.15)",
+    tags: ["MCC", "Motor", "Relay"],
+    subtitle: "AUXILIARY MACHINERY SYSTEM",
+    overview: `Sistem Auxiliary Machinery mencakup seluruh pompa, kompresor, dan mesin bantu kapal seperti <strong>Bilge Pump, Ballast Pump, FO Pump, L.O. Pump, Compressor, Separator, dan Boiler Feed Pump</strong>. Setiap mesin dioperasikan oleh motor listrik 3-phase yang dikendalikan melalui <strong>MCC (Motor Control Center)</strong>. Sistem ini vital untuk operasi harian kapal.`,
+    elec: {
+      source: "440V AC 3-Phase dari Main Switchboard",
+      motor: "Induction Motor 3-Phase (berbagai kapasitas: 7.5 kW – 75 kW)",
+      panel: "MCC (Motor Control Center), Distribution Board 440V",
+      proteksi: [
+        { name: "MCCB / ACB", desc: "Molded Case Circuit Breaker — proteksi hubung singkat" },
+        { name: "Thermal Overload Relay", desc: "Proteksi arus lebih / overload motor" },
+        { name: "Earth Fault Relay", desc: "Deteksi kebocoran arus ke ground" },
+        { name: "Contactor", desc: "Switching device untuk on/off motor" },
+        { name: "Phase Failure Relay", desc: "Proteksi kehilangan satu fase" },
+      ]
+    },
+    control: {
+      sensor: "Pressure Switch, Level Switch, Temperature Switch, Flow Switch",
+      controller: "PLC (Programmable Logic Controller) / Relay Logic Circuit",
+      actuator: "Contactor (Motor), Solenoid Valve, Control Valve",
+      alarm: "Fault Lamp di Local Control Panel, Alarm di ECR Alarm Panel"
+    },
+    flow: [
+      { type: "power", label: "Switchboard", sub: "440V AC" },
+      { arrow: "power", label: "Power" },
+      { type: "controller", label: "MCC Panel", sub: "MCCB + Contactor" },
+      { arrow: "control", label: "Control" },
+      { type: "actuator", label: "Motor 3~", sub: "Induction Motor" },
+      { arrow: "feedback", label: "Feedback" },
+      { type: "sensor", label: "Switches", sub: "Press/Level/Temp" },
+      { arrow: "alarm", label: "Trip Signal" },
+      { type: "alarm", label: "Alarm/Fault\nLamp", sub: "Local Panel" },
+    ],
+    cases: [
+      {
+        title: "🚨 Bilge Pump Tidak Mau Start",
+        steps: [
+          "Cek posisi selector switch — pastikan pada posisi AUTO atau MANUAL",
+          "Periksa Thermal Overload Relay — apakah sudah trip? Reset jika perlu",
+          "Cek fuse/MCCB di MCC Panel — pastikan tidak trip karena short circuit",
+          "Periksa tegangan supply 440V di terminal MCC — cek dengan voltmeter",
+          "Cek Level Switch di bilge well — mungkin tidak memberikan sinyal start",
+          "Periksa kontaktor — apakah coil terbakar? Cek dengan ohmmeter"
+        ]
+      },
+      {
+        title: "⚠️ Motor Overheat — Thermal Overload Trip",
+        steps: [
+          "Hentikan operasi motor segera",
+          "Biarkan motor dingin minimal 15-20 menit sebelum reset",
+          "Investigasi penyebab: overcurrent, mechanical binding, atau ventilasi tersumbat",
+          "Ukur arus kerja motor dengan clamp meter — bandingkan dengan nameplate",
+          "Periksa bearing motor dan kopling — kemungkinan macet",
+          "Reset thermal overload relay — monitor arus saat start ulang"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Komponen MCC apa yang berfungsi sebagai switching device untuk menghidupkan/mematikan motor?", opts: ["MCCB", "Thermal Overload Relay", "Contactor", "Earth Fault Relay"], correct: 2, explain: "Contactor adalah electromagnetic switching device yang digunakan untuk menghubungkan dan memutuskan suplai listrik ke motor. Dioperasikan oleh coil electromagnet yang menerima sinyal dari control circuit." },
+      { q: "Apakah fungsi Thermal Overload Relay pada sistem motor kapal?", opts: ["Memproteksi dari hubung singkat", "Memproteksi motor dari arus lebih berkepanjangan yang menyebabkan panas berlebih", "Mengukur tegangan supply", "Menghidupkan motor secara otomatis"], correct: 1, explain: "Thermal Overload Relay bekerja berdasarkan panas yang dihasilkan oleh arus lebih. Jika arus melebihi setting, bimetal strip melengkung dan memutus circuit — mencegah motor terbakar." },
+      { q: "Pada sistem auxiliary machinery, sinyal dari Level Switch digunakan untuk?", opts: ["Mengukur tekanan pompa", "Memberikan sinyal AUTO start/stop pompa berdasarkan level cairan", "Mengindikasikan suhu motor", "Mengontrol kecepatan motor"], correct: 1, explain: "Level Switch memberikan sinyal on/off berdasarkan ketinggian cairan. Contoh: Bilge pump akan start otomatis ketika level bilge mencapai batas HIGH, dan stop ketika mencapai batas LOW." }
+    ],
+    sim: {
+      indicators: [
+        { label: "Bilge Pump", val: "RUNNING", unit: "", status: "normal" },
+        { label: "Ballast Pump", val: "STANDBY", unit: "", status: "normal" },
+        { label: "L.O. Purifier", val: "RUNNING", unit: "", status: "normal" },
+        { label: "Bilge Level", val: "45", unit: "cm", status: "normal" },
+        { label: "Motor Current", val: "18.5", unit: "A", status: "normal" },
+        { label: "Supply Voltage", val: "440", unit: "V", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate Motor Overload", type: "danger", action: "motorOverload" },
+        { label: "🟡 Simulate High Bilge Level", type: "warning", action: "highBilge" },
+        { label: "🔴 Simulate Phase Failure", type: "danger", action: "phaseFail" },
+      ]
+    }
+  },
+  {
+    id: 3,
+    icon: "⚡",
+    title: "Power Generation System",
+    sub: "DIESEL GENERATOR & SWITCHBOARD",
+    accent: "#ffc107",
+    glow: "rgba(255,193,7,0.15)",
+    tags: ["DG", "AVR", "Sync"],
+    subtitle: "POWER GENERATION SYSTEM",
+    overview: `Sistem pembangkit listrik kapal terdiri dari <strong>2 unit Diesel Generator (DG No.1 dan DG No.2)</strong> yang beroperasi secara paralel atau bergantian. Setiap generator dilengkapi dengan <strong>AVR (Automatic Voltage Regulator)</strong> dan <strong>Governor</strong> untuk menjaga tegangan dan frekuensi tetap stabil. Proses <strong>synchronizing</strong> dilakukan sebelum generator dihubungkan paralel ke Main Switchboard.`,
+    elec: {
+      source: "Self-generated: Diesel Engine driving Alternator 440V/60Hz",
+      motor: "Alternator 3-Phase (440V, 60Hz, cos φ 0.8)",
+      panel: "Main Switchboard, Emergency Switchboard, Synchronizing Panel",
+      proteksi: [
+        { name: "AVR (Auto Voltage Regulator)", desc: "Mengatur eksitasi untuk menjaga tegangan 440V stabil" },
+        { name: "Governor", desc: "Mengatur bahan bakar untuk menjaga frekuensi 60Hz" },
+        { name: "Reverse Power Relay", desc: "Trip jika generator menerima daya dari bus (motoring)" },
+        { name: "Overcurrent Relay", desc: "Trip pada beban lebih berlebihan" },
+        { name: "Under-Voltage Relay", desc: "Trip jika tegangan turun di bawah batas aman" },
+      ]
+    },
+    control: {
+      sensor: "Voltage Transducer, Frequency Meter, Power Meter, kWh Meter",
+      controller: "Load Sharing Controller, Synchronizer (Auto/Manual)",
+      actuator: "AVR (excitation control), Governor (fuel rack), ACB (Air Circuit Breaker)",
+      alarm: "Blackout Alarm, Under-Frequency Alarm, Over-Current Alarm di Switchboard"
+    },
+    flow: [
+      { type: "power", label: "Diesel Engine", sub: "Prime Mover" },
+      { arrow: "power", label: "Mechanical" },
+      { type: "controller", label: "Alternator\n+ AVR", sub: "440V/60Hz" },
+      { arrow: "control", label: "Sync Signal" },
+      { type: "actuator", label: "Main\nSwitchboard", sub: "ACB Bus" },
+      { arrow: "feedback", label: "Voltage/Hz" },
+      { type: "sensor", label: "Load Sharing\nController", sub: "kW Monitoring" },
+      { arrow: "alarm", label: "Alarm" },
+      { type: "alarm", label: "Alarm Panel", sub: "ECR Console" },
+    ],
+    cases: [
+      {
+        title: "🚨 Blackout Kapal — Total Power Loss",
+        steps: [
+          "Emergency Generator auto-start dalam 30 detik — Emergency Switchboard aktif",
+          "Identifikasi penyebab blackout: overload, ACB trip, atau DG breakdown",
+          "Cek Main Switchboard — periksa status ACB setiap generator",
+          "Start DG yang tersedia secara manual jika auto-start gagal",
+          "Lakukan synchronizing sebelum menghubungkan DG ke bus",
+          "Restore beban secara bertahap — prioritaskan essential loads",
+          "Investigasi root cause dan laporkan ke Chief Engineer"
+        ]
+      },
+      {
+        title: "⚠️ Synchronizing Gagal — Generator Tidak Bisa Paralel",
+        steps: [
+          "Pastikan tegangan kedua generator sama (±5%): 440V",
+          "Pastikan frekuensi sama (±0.2 Hz): 60Hz — adjust governor",
+          "Cek phase sequence — harus identik (R-S-T = R-S-T)",
+          "Gunakan Synchroscope — tunggu pointer bergerak lambat searah jarum jam",
+          "Close ACB saat pointer tepat di posisi jam 12 (0°)",
+          "Jika auto-sync gagal, gunakan manual synchronizing"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Apa fungsi AVR (Automatic Voltage Regulator) pada generator kapal?", opts: ["Mengatur kecepatan mesin diesel", "Mengatur arus eksitasi untuk menjaga tegangan output generator tetap stabil", "Menghubungkan generator ke switchboard", "Mengatur distribusi beban"], correct: 1, explain: "AVR mengatur arus DC yang mengalir ke field winding (eksitasi) alternator. Ketika beban bertambah dan tegangan turun, AVR meningkatkan eksitasi untuk mempertahankan tegangan 440V." },
+      { q: "Sebelum dua generator dihubungkan paralel, syarat apa yang HARUS dipenuhi?", opts: ["Hanya tegangan yang sama", "Tegangan, frekuensi, phase sequence, dan phase angle harus sama/sinkron", "Hanya frekuensi yang sama", "Tidak ada syarat khusus"], correct: 1, explain: "Synchronizing memerlukan: (1) Tegangan sama, (2) Frekuensi sama, (3) Phase sequence sama, (4) Phase angle sama (ditunjukkan oleh synchroscope pada posisi 0°/jam12)." },
+      { q: "Apa yang terjadi jika Reverse Power Relay bekerja pada generator?", opts: ["Generator bertambah beban", "Generator trip — karena kondisi 'motoring' dimana generator menerima daya dari bus", "Tegangan naik", "Frekuensi turun"], correct: 1, explain: "Reverse power atau 'motoring' terjadi ketika generator menerima daya dari bus (berputar seperti motor). Ini berbahaya karena dapat merusak mesin diesel. Reverse Power Relay memproteksi kondisi ini dengan mentrip ACB generator." }
+    ],
+    sim: {
+      indicators: [
+        { label: "DG No.1 Voltage", val: "440", unit: "V", status: "normal" },
+        { label: "DG No.1 Frequency", val: "60.0", unit: "Hz", status: "normal" },
+        { label: "DG No.2 Voltage", val: "440", unit: "V", status: "normal" },
+        { label: "DG No.2 Load", val: "320", unit: "kW", status: "normal" },
+        { label: "Bus Voltage", val: "440", unit: "V", status: "normal" },
+        { label: "Total Load", val: "640", unit: "kW", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate DG Trip (Blackout)", type: "danger", action: "dgTrip" },
+        { label: "🟡 Simulate Overload Warning", type: "warning", action: "overload" },
+        { label: "🔴 Simulate Under-Voltage", type: "danger", action: "uvTrip" },
+      ]
+    }
+  },
+  {
+    id: 4,
+    icon: "🔌",
+    title: "Power Distribution",
+    sub: "SWITCHBOARD & DISTRIBUTION",
+    accent: "#ff8c00",
+    glow: "rgba(255,140,0,0.15)",
+    tags: ["440V", "220V", "Shore"],
+    subtitle: "POWER DISTRIBUTION SYSTEM",
+    overview: `Sistem distribusi daya kapal mendistribusikan listrik dari <strong>Main Switchboard (440V)</strong> ke seluruh beban kapal melalui jaringan panel distribusi bertingkat. Sistem mencakup <strong>Shore Connection</strong> untuk suplai listrik saat di pelabuhan, <strong>Transformer 440V/220V</strong>, Distribution Board 440V, 220V, Emergency Switchboard, dan Battery Charger Panel untuk sistem DC.`,
+    elec: {
+      source: "Main Switchboard 440V AC | Shore Connection | Emergency Switchboard",
+      motor: "Transformer 440V/220V (Isolation Transformer, Step-Down)",
+      panel: "Main Switchboard, Distribution Board 440V, Distribution Board 220V, Emergency Switchboard",
+      proteksi: [
+        { name: "ACB (Air Circuit Breaker)", desc: "Proteksi arus besar di main switchboard" },
+        { name: "MCCB", desc: "Proteksi distribusi panel ke beban individual" },
+        { name: "MCB (Miniature CB)", desc: "Proteksi beban kecil dan lighting circuit" },
+        { name: "Earth Leakage Detector", desc: "Monitor isolasi sistem dari ground" },
+        { name: "Bus Tie", desc: "Interkoneksi antara dua bus pada switchboard" },
+      ]
+    },
+    control: {
+      sensor: "Voltmeter, Ammeter, Wattmeter, kWh Meter, Earth Leakage Monitor",
+      controller: "Manual Switching + Shore Connection Interlock",
+      actuator: "ACB, MCCB, MCB, Shore Connection Panel Switches",
+      alarm: "Earth Fault Alarm, Under-Voltage Alarm, Reverse Power Alarm"
+    },
+    flow: [
+      { type: "power", label: "Generator\n/ Shore", sub: "440V AC" },
+      { arrow: "power", label: "ACB" },
+      { type: "controller", label: "Main\nSwitchboard", sub: "440V Bus" },
+      { arrow: "power", label: "MCCB" },
+      { type: "actuator", label: "Distribution\nBoard 440V", sub: "Machinery" },
+      { arrow: "power", label: "Trafo" },
+      { type: "sensor", label: "Distrib Board\n220V", sub: "Lighting/Hotel" },
+      { arrow: "power", label: "MCB" },
+      { type: "alarm", label: "End Users", sub: "All Ship Loads" },
+    ],
+    cases: [
+      {
+        title: "🚨 Earth Fault Alarm Berbunyi di Switchboard",
+        steps: [
+          "Identifikasi sistem mana yang menunjukkan earth fault (indicator lamp/meter)",
+          "Isolasi sirkuit satu per satu — gunakan metode half-and-half untuk mempersempit",
+          "Cek insulation resistance dengan Megger pada sirkuit yang dicurigai",
+          "Periksa kabel dan terminal yang basah atau rusak — bilge pump sering tersangkut air",
+          "Perbaiki isolasi yang rusak atau ganti kabel",
+          "Reset earth fault relay setelah perbaikan selesai"
+        ]
+      },
+      {
+        title: "⚠️ Shore Power Tidak Masuk Saat di Pelabuhan",
+        steps: [
+          "Cek tegangan shore supply di terminal Shore Connection Panel",
+          "Periksa phase sequence shore supply — harus sesuai dengan kapal",
+          "Cek Shore Connection Interlock — Generator harus OFF sebelum shore bisa masuk",
+          "Periksa kabel shore connection dan konektor — kemungkinan loose connection",
+          "Koordinasi dengan terminal operator pelabuhan untuk pengecekan supply",
+          "Gunakan voltage phase sequence tester sebelum menghubungkan"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Mengapa Shore Connection Interlock harus memastikan generator OFF sebelum shore power masuk?", opts: ["Untuk menghemat bahan bakar saja", "Mencegah paralel generator dengan shore supply yang bisa menyebabkan arus balik dan kerusakan", "Karena aturan pelabuhan", "Untuk mempermudah maintenance"], correct: 1, explain: "Jika generator masih running saat shore power disambungkan, bisa terjadi kondisi tidak sinkron yang menyebabkan lonjakan arus besar, kerusakan ACB, dan bahaya kebakaran. Interlock mencegah kedua sumber terhubung bersamaan." },
+      { q: "Apa fungsi Earth Leakage Detector pada sistem distribusi kapal?", opts: ["Mengukur konsumsi daya", "Mendeteksi kebocoran arus ke lambung kapal dan memberi peringatan dini", "Mengatur distribusi beban", "Memutus arus berlebih"], correct: 1, explain: "Earth Leakage Detector memonitor impedansi antara sistem kelistrikan dengan ground (lambung kapal). Kebocoran isolasi dapat menyebabkan bahaya sengatan listrik dan korosi galvanik pada lambung." },
+      { q: "Berapa tegangan sistem untuk lighting dan hotel load pada kapal merchant?", opts: ["440V AC", "220V AC", "24V DC", "110V DC"], correct: 1, explain: "Lighting, AC unit, dan beban hotel pada kapal menggunakan 220V AC (atau 110V pada beberapa kapal). Transformator step-down 440V/220V dipasang di distribution board untuk suplai beban ini." }
+    ],
+    sim: {
+      indicators: [
+        { label: "Main Bus Voltage", val: "440", unit: "V", status: "normal" },
+        { label: "Total Current", val: "856", unit: "A", status: "normal" },
+        { label: "Power Factor", val: "0.87", unit: "", status: "normal" },
+        { label: "Earth Leakage", val: "0.12", unit: "mA", status: "normal" },
+        { label: "220V Bus", val: "220", unit: "V", status: "normal" },
+        { label: "Shore Status", val: "DISCONN", unit: "", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate Earth Fault", type: "danger", action: "earthFault" },
+        { label: "🟡 Simulate Overload Bus", type: "warning", action: "busOverload" },
+        { label: "🔴 Simulate Bus Fault Trip", type: "danger", action: "busFault" },
+      ]
+    }
+  },
+  {
+    id: 5,
+    icon: "🖥️",
+    title: "Automation & Control (ECR)",
+    sub: "PLC / SCADA / HMI",
+    accent: "#c77dff",
+    glow: "rgba(199,125,255,0.15)",
+    tags: ["PLC", "HMI", "SCADA"],
+    subtitle: "ENGINE CONTROL ROOM AUTOMATION",
+    overview: `Engine Control Room (ECR) adalah pusat kendali seluruh permesinan kapal. Sistem otomasi modern menggunakan <strong>PLC (Programmable Logic Controller)</strong> dan <strong>HMI (Human Machine Interface)</strong> yang terhubung dalam jaringan <strong>Integrated Automation System (IAS)</strong>. Engineer dapat memonitor dan mengontrol seluruh sistem dari satu konsol tanpa harus turun ke engine room.`,
+    elec: {
+      source: "220V AC UPS (Uninterruptible Power Supply) untuk panel kontrol",
+      motor: "I/O Module, Signal Conditioning Unit, Communication Interface",
+      panel: "PLC Cabinet, HMI Console, ECR Control Console, Alarm Printer",
+      proteksi: [
+        { name: "UPS Battery Backup", desc: "Menjaga sistem kontrol tetap online saat blackout" },
+        { name: "Watchdog Timer", desc: "Reset PLC otomatis jika program hang" },
+        { name: "I/O Redundancy", desc: "Duplikasi modul I/O untuk sistem kritis" },
+        { name: "Network Redundancy", desc: "Dual ring network topology untuk IAS" },
+        { name: "Surge Protection", desc: "Proteksi transient untuk input/output PLC" },
+      ]
+    },
+    control: {
+      sensor: "4-20mA Transmitter (Pressure, Temp, Level, Flow), Digital I/O (Switch, Relay), MODBUS/PROFIBUS instruments",
+      controller: "PLC (IEC 61131-3 Standard), SCADA Software, IAS (Integrated Automation System)",
+      actuator: "Control Valve (4-20mA / Pneumatic), Variable Speed Drive (VSD), Relay Output",
+      alarm: "Priority-based Alarm System (A1-Emergency / A2-Alarm / A3-Warning), Alarm Printer"
+    },
+    flow: [
+      { type: "sensor", label: "Field Devices", sub: "Sensor/Transmitter" },
+      { arrow: "control", label: "4-20mA" },
+      { type: "controller", label: "PLC\nI/O Module", sub: "IEC 61131-3" },
+      { arrow: "control", label: "MODBUS" },
+      { type: "actuator", label: "HMI\nConsole", sub: "SCADA Display" },
+      { arrow: "feedback", label: "Control Cmd" },
+      { type: "power", label: "Actuators", sub: "Valve/Motor/VSD" },
+      { arrow: "alarm", label: "Alarm Out" },
+      { type: "alarm", label: "Alarm Panel\n& Printer", sub: "ECR/Bridge" },
+    ],
+    cases: [
+      {
+        title: "🚨 PLC CPU Fault — Loss of Control",
+        steps: [
+          "Jangan panik — sistem safety masih aktif via hardwired relay",
+          "Identifikasi CPU fault dari status LED pada PLC chassis",
+          "Coba restart PLC (warm reset) — jika program korup lakukan cold restart",
+          "Switch ke manual mode untuk operasi kritis selama PLC down",
+          "Hubungi technical support PLC manufacturer",
+          "Log semua kejadian untuk analisis dan root cause investigation"
+        ]
+      },
+      {
+        title: "⚠️ HMI Monitor Blank / No Display",
+        steps: [
+          "Cek power supply HMI — tegangan 220V/24V dari UPS",
+          "Cek kabel komunikasi antara PLC dan HMI (RS485/Ethernet)",
+          "Restart HMI software dari menu atau hardware reset",
+          "Cek setting komunikasi (IP address, baud rate, Modbus address)",
+          "Operasikan sistem dari Local Control Panel di engine room sementara",
+          "HMI blank tidak berarti system down — PLC mungkin masih berjalan normal"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Standar internasional yang mengatur bahasa pemrograman PLC industri adalah?", opts: ["ISO 9001", "IEC 61131-3", "SOLAS 2020", "DNV Rules"], correct: 1, explain: "IEC 61131-3 mendefinisikan 5 bahasa pemrograman PLC: Ladder Diagram (LD), Function Block Diagram (FBD), Structured Text (ST), Instruction List (IL), dan Sequential Function Chart (SFC)." },
+      { q: "Mengapa sistem kontrol ECR menggunakan UPS (Uninterruptible Power Supply)?", opts: ["Untuk menghemat listrik", "Memastikan sistem kontrol, monitoring, dan alarm tetap aktif bahkan saat blackout kapal", "Karena lebih murah dari generator", "Hanya untuk pencahayaan ECR"], correct: 1, explain: "Saat blackout, engineer membutuhkan informasi tentang kondisi kapal dan kemampuan kontrol untuk restore power. UPS menjaga sistem kontrol, alarm, dan komunikasi tetap aktif selama transisi." },
+      { q: "Sinyal 4-20mA digunakan pada instrumentasi kapal karena?", opts: ["Harganya murah", "Lebih kebal terhadap noise elektrikal dan bisa mendeteksi kabel putus (4mA = hidup, 0mA = putus)", "Lebih mudah dipasang", "Voltase lebih tinggi lebih aman"], correct: 1, explain: "4-20mA adalah current loop standard. 4mA merupakan nilai minimum hidup — jika kabel putus arus = 0mA, sistem tahu ada fault. Sinyal arus tidak terpengaruh noise tegangan induksi sepanjang kabel." }
+    ],
+    sim: {
+      indicators: [
+        { label: "PLC CPU Status", val: "RUN", unit: "", status: "normal" },
+        { label: "I/O Module", val: "OK", unit: "", status: "normal" },
+        { label: "HMI Connection", val: "ONLINE", unit: "", status: "normal" },
+        { label: "Active Alarms", val: "0", unit: "", status: "normal" },
+        { label: "UPS Battery", val: "98", unit: "%", status: "normal" },
+        { label: "Network Status", val: "NOMINAL", unit: "", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate PLC Fault", type: "danger", action: "plcFault" },
+        { label: "🟡 Simulate Sensor Fault", type: "warning", action: "sensorFault" },
+        { label: "🟡 Simulate Network Loss", type: "warning", action: "netLoss" },
+      ]
+    }
+  },
+  {
+    id: 6,
+    icon: "🏗️",
+    title: "Deck Machinery",
+    sub: "CRANE, WINDLASS & WINCH",
+    accent: "#ff6b35",
+    glow: "rgba(255,107,53,0.15)",
+    tags: ["Crane", "Winch", "VSD"],
+    subtitle: "DECK MACHINERY SYSTEM",
+    overview: `Deck Machinery mencakup <strong>Crane (Cargo Crane), Windlass (Mooring/Anchor Winch), dan Mooring Winch</strong>. Semua digerakkan oleh motor listrik 3-phase dengan <strong>VSD (Variable Speed Drive)</strong> atau sistem brake yang terintegrasi. Sistem Safety Device seperti Limit Switch, Overload Sensor, dan Emergency Stop sangat kritis untuk mencegah kecelakaan kerja.`,
+    elec: {
+      source: "440V AC 3-Phase dari Main Switchboard melalui Distribution Board Deck",
+      motor: "AC Motor 3-Phase dengan VSD, Motor Brake (electromagnetic/hydraulic)",
+      panel: "Local Control Panel setiap unit, Remote Control dari Bridge/ECR",
+      proteksi: [
+        { name: "Limit Switch", desc: "Batas gerakan mekanis (max up/down/left/right)" },
+        { name: "Overload Protection", desc: "Trip otomatis jika beban melebihi SWL" },
+        { name: "Emergency Stop", desc: "E-stop button di multiple location" },
+        { name: "Brake Interlock", desc: "Brake aktif otomatis saat power loss" },
+        { name: "Anti-Collision", desc: "Sensor jarak untuk crane di adjacent hatch" },
+      ]
+    },
+    control: {
+      sensor: "Load Cell (weighing), Limit Switch (position), Wind Speed Sensor, Slewing Angle Encoder",
+      controller: "VSD (Variable Speed Drive), PLC Crane Control, Joystick Control",
+      actuator: "Hoisting Motor, Slewing Motor, Luffing Motor, Electromagnetic Brake",
+      alarm: "Overload Alarm (buzzer + lamp), Limit Switch Alarm, Emergency Stop Alarm"
+    },
+    flow: [
+      { type: "power", label: "Deck Distrib\nBoard 440V", sub: "From Main SW" },
+      { arrow: "power", label: "MCCB" },
+      { type: "controller", label: "VSD\nDrive", sub: "Variable Speed" },
+      { arrow: "control", label: "Torque/Speed" },
+      { type: "actuator", label: "Crane/Winch\nMotor", sub: "3-Phase AC" },
+      { arrow: "feedback", label: "Encoder" },
+      { type: "sensor", label: "Load Cell\n+ Limit SW", sub: "Safety Sensors" },
+      { arrow: "alarm", label: "E-Stop" },
+      { type: "alarm", label: "Alarm\n+ Brake", sub: "Safety Device" },
+    ],
+    cases: [
+      {
+        title: "🚨 Cargo Crane Tidak Bisa Angkat Beban",
+        steps: [
+          "Cek apakah beban melebihi SWL (Safe Working Load) yang tertera di crane",
+          "Periksa status Overload Relay — reset jika sudah trip",
+          "Cek Limit Switch posisi HOIST — kemungkinan sudah aktif (beban terlalu tinggi)",
+          "Periksa tegangan supply 440V di Motor Control Panel crane",
+          "Cek kondisi wire rope dan sheave — kemungkinan macet atau wire rope rusak",
+          "Periksa electromagnetic brake — apakah brake release bekerja normal"
+        ]
+      },
+      {
+        title: "⚠️ Windlass Tidak Bisa Heave Up Anchor",
+        steps: [
+          "Cek suara motor — apakah ada humming (arus tapi tidak berputar = kemungkinan phase loss)",
+          "Periksa tekanan fluida hydraulic jika menggunakan hydraulic windlass",
+          "Cek Chain Stopper — pastikan sudah dibuka sebelum heaving",
+          "Periksa kondisi rantai jangkar — kemungkinan tersangkut di dasar",
+          "Untuk electric windlass — cek Motor Thermal Overload dan VSD fault",
+          "Gunakan Wildcat Brake sebagai backup untuk menahan rantai"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Apa yang terjadi pada motor crane jika terjadi power failure mendadak?", opts: ["Motor terus berputar karena inersia", "Electromagnetic brake aktif otomatis — beban terkunci, tidak jatuh", "Beban jatuh bebas", "Motor berputar terbalik"], correct: 1, explain: "Electromagnetic brake (fail-safe brake) dirancang untuk aktif (closed/lock) ketika power hilang. Saat power ON, arus mengangkat armature dan melepas brake. Saat power OFF, spring menekan brake — beban tertahan." },
+      { q: "Fungsi VSD (Variable Speed Drive) pada deck machinery adalah?", opts: ["Hanya untuk starting motor", "Mengontrol kecepatan dan torsi motor secara variabel untuk operasi halus dan efisien", "Memproteksi dari hubung singkat", "Mengkonversi tegangan 440V ke 220V"], correct: 1, explain: "VSD (juga disebut inverter atau frequency drive) mengontrol frekuensi dan tegangan ke motor, memungkinkan kecepatan bervariasi. Untuk crane: kecepatan lambat saat kontrol presisi, cepat saat transfer cargo." },
+      { q: "Apa fungsi Load Cell pada sistem crane kapal?", opts: ["Mengukur kecepatan angin", "Mengukur berat muatan yang diangkat untuk mencegah overload", "Mengukur tegangan listrik motor", "Mendeteksi posisi hook"], correct: 1, explain: "Load Cell adalah sensor berat yang dipasang pada hook block atau sheave. Sinyal berat dikirim ke PLC crane — jika mendekati atau melebihi SWL, sistem akan memberi peringatan atau menghentikan hoisting otomatis." }
+    ],
+    sim: {
+      indicators: [
+        { label: "Crane No.1", val: "STANDBY", unit: "", status: "normal" },
+        { label: "Load Reading", val: "0.0", unit: "ton", status: "normal" },
+        { label: "Hoist Speed", val: "0", unit: "m/min", status: "normal" },
+        { label: "Wind Speed", val: "8.5", unit: "kn", status: "normal" },
+        { label: "VSD Output", val: "0", unit: "Hz", status: "normal" },
+        { label: "Brake Status", val: "LOCKED", unit: "", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate Crane Overload", type: "danger", action: "craneOverload" },
+        { label: "🟡 Simulate High Wind Stop", type: "warning", action: "highWind" },
+        { label: "🔴 Simulate Limit Switch Trip", type: "danger", action: "limitSW" },
+      ]
+    }
+  },
+  {
+    id: 7,
+    icon: "🆘",
+    title: "LSA System",
+    sub: "LIFE SAVING APPLIANCES",
+    accent: "#ff3b3b",
+    glow: "rgba(255,59,59,0.15)",
+    tags: ["Lifeboat", "SOLAS", "Battery"],
+    subtitle: "LIFE SAVING APPLIANCES (LSA)",
+    overview: `Sistem LSA (Life Saving Appliances) meliputi <strong>Lifeboat/Rescue Boat, Davit System, dan Alarm System</strong> yang wajib ada berdasarkan <strong>SOLAS Chapter III</strong>. Sistem kelistrikan LSA menggunakan <strong>24V DC Battery</strong> sebagai sumber utama untuk memastikan operasi tetap berjalan saat kapal mengalami blackout. Launching & Recovery Control Panel dioperasikan dari Lifeboat Station.`,
+    elec: {
+      source: "24V DC Battery (self-contained) + trickle charging dari ship supply",
+      motor: "Davit Winch Motor (DC), Lifeboat Engine (Internal combustion)",
+      panel: "Launching & Recovery Control Panel, Alarm & Indication Panel (Lifeboat Station)",
+      proteksi: [
+        { name: "Battery Capacity Monitor", desc: "Alert saat kapasitas baterai berkurang" },
+        { name: "Earth Leakage Protection", desc: "Proteksi kebocoran pada sistem DC" },
+        { name: "Overcurrent Protection", desc: "Fuse proteksi di setiap sirkuit DC" },
+        { name: "Davit Limit Switch", desc: "Batas posisi davit untuk mencegah over-travel" },
+        { name: "Manual Override", desc: "Operasi manual jika sistem elektrik gagal" },
+      ]
+    },
+    control: {
+      sensor: "Limit Switch (davit position), Battery Voltage Monitor, Release Sensor",
+      controller: "Manual Control Panel (NO PLC — manual operation by design)",
+      actuator: "Davit Winch Motor (hoisting/lowering), Hydrostatic Release Unit, Hook Release",
+      alarm: "General Alarm System, Alarm & Indication Panel di Lifeboat Station"
+    },
+    flow: [
+      { type: "power", label: "24V DC\nBattery", sub: "Self-contained" },
+      { arrow: "power", label: "DC Power" },
+      { type: "controller", label: "Launching\nControl Panel", sub: "Manual Op." },
+      { arrow: "control", label: "Motor Control" },
+      { type: "actuator", label: "Davit Winch\nMotor", sub: "DC Motor" },
+      { arrow: "feedback", label: "Position" },
+      { type: "sensor", label: "Limit Switch\n+ Sensors", sub: "Position/Status" },
+      { arrow: "alarm", label: "Alarm" },
+      { type: "alarm", label: "Lifeboat\nStation Alarm", sub: "Visual/Audible" },
+    ],
+    cases: [
+      {
+        title: "🚨 Davit Motor Tidak Merespons — Saat Latihan Abandon Ship",
+        steps: [
+          "Segera switch ke manual release menggunakan brake release handle",
+          "Cek tegangan baterai 24V — baterai kemungkinan kurang charge (min. 22V)",
+          "Periksa koneksi baterai — terminal korosi/longgar sangat umum terjadi",
+          "Cek fuse/circuit breaker di Launching Control Panel",
+          "Gunakan manual gravity davit — turunkan lifeboat secara manual",
+          "Setelah latihan selesai — lakukan investigasi dan perbaikan segera"
+        ]
+      },
+      {
+        title: "⚠️ General Alarm Tidak Berbunyi",
+        steps: [
+          "Test alarm dari Bridge — apakah semua station menerima alarm?",
+          "Cek battery backup untuk General Alarm System",
+          "Periksa sirkuit kabel dari alarm control panel ke klakson/bell",
+          "Cek kondisi alarm horn di setiap station — korosi dan humidity tinggi",
+          "Pastikan tidak ada MCB yang trip di alarm circuit",
+          "Laporkan ke Nakhoda — wajib diperbaiki sebelum departure"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Mengapa sistem LSA menggunakan 24V DC Battery sebagai sumber daya?", opts: ["Karena lebih murah", "Untuk memastikan operasi lifeboat tetap berjalan bahkan saat kapal total blackout", "Karena voltage lebih aman", "Karena motor DC lebih kuat"], correct: 1, explain: "SOLAS mengharuskan LSA dapat beroperasi independen dari sistem kelistrikan kapal. Baterai 24V DC yang self-contained memastikan davit dan alarm tetap berfungsi meski seluruh generator kapal mati." },
+      { q: "Berapa tegangan minimum baterai 24V DC yang masih dapat mengoperasikan davit motor?", opts: ["12V", "18V", "22V", "26V"], correct: 2, explain: "Baterai 24V nominal dianggap layak operasi minimal pada 22V. Di bawah 22V, motor davit mungkin tidak memiliki torsi cukup untuk mengoperasikan lifeboat dengan muatan penuh. Baterai wajib dicek setiap minggu." },
+      { q: "Apa yang dimaksud Hydrostatic Release Unit (HRU) pada lifeboat?", opts: ["Release mekanis dari bridge", "Perangkat yang melepaskan liferaft secara otomatis pada kedalaman tertentu jika kapal tenggelam cepat", "Tombol manual di lifeboat station", "Sensor tekanan untuk davit"], correct: 1, explain: "HRU dirancang untuk mengaktifkan release liferaft otomatis pada tekanan air 2-4 meter (kedalaman). Ini memastikan liferaft terlepas sendiri jika kapal tenggelam cepat dan crew tidak sempat meluncurkannya." }
+    ],
+    sim: {
+      indicators: [
+        { label: "Battery Voltage", val: "25.2", unit: "V", status: "normal" },
+        { label: "Battery Capacity", val: "94", unit: "%", status: "normal" },
+        { label: "Davit Status", val: "STOWED", unit: "", status: "normal" },
+        { label: "Alarm System", val: "READY", unit: "", status: "normal" },
+        { label: "Charging Current", val: "1.2", unit: "A", status: "normal" },
+        { label: "Last Drill", val: "12 DAYS AGO", unit: "", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate Battery Low", type: "danger", action: "batLow" },
+        { label: "🟡 Simulate Alarm Failure", type: "warning", action: "alarmFail" },
+        { label: "🔴 Simulate Davit Motor Fault", type: "danger", action: "davitFault" },
+      ]
+    }
+  },
+  {
+    id: 8,
+    icon: "🔥",
+    title: "FFA System",
+    sub: "FIRE FIGHTING APPLIANCES",
+    accent: "#ff3b3b",
+    glow: "rgba(255,59,59,0.2)",
+    tags: ["Fire Pump", "CO2", "Sprinkler"],
+    subtitle: "FIRE FIGHTING APPLIANCES (FFA)",
+    overview: `Sistem FFA (Fire Fighting Appliances) terdiri dari <strong>Fire Pump (Electric Motor), Emergency Fire Pump (Diesel Engine), Jockey Pump, Fire Alarm System, dan Sprinkler System</strong>. Sistem ini wajib beroperasi independen sesuai <strong>SOLAS Chapter II-2</strong>. Fire Pump Control Panel mengontrol operasi AUTO/MANUAL dan monitoring pressure line.`,
+    elec: {
+      source: "Fire Pump: 440V AC dari Emergency Switchboard | Emergency FP: Diesel Engine Self-contained",
+      motor: "Electric Motor 3-Phase untuk Main Fire Pump dan Jockey Pump",
+      panel: "Fire Pump Control Panel, Fire Alarm Control Panel (FACP)",
+      proteksi: [
+        { name: "Emergency Power Priority", desc: "Fire pump mendapat prioritas saat beban darurat" },
+        { name: "Automatic Starting", desc: "Auto-start saat pressure drop di fire main line" },
+        { name: "Jockey Pump Logic", desc: "Jockey pump mengkompensasi kebocoran kecil" },
+        { name: "Pressure Switch", desc: "Trigger start pump saat tekanan turun < set point" },
+        { name: "FACP Zoning", desc: "Fire Alarm dibagi zona untuk lokalisasi kebakaran" },
+      ]
+    },
+    control: {
+      sensor: "Smoke Detector, Heat Detector, Manual Call Point, Pressure Switch (fire main)",
+      controller: "FACP (Fire Alarm Control Panel), Fire Pump Control Panel",
+      actuator: "Fire Pump Motor, Deluge Valve, Sprinkler Head, CO2 Release Valve",
+      alarm: "Alarm Sounder, Strobe Light, FACP Display, Bridge Alarm, General Alarm"
+    },
+    flow: [
+      { type: "sensor", label: "Fire Detectors\nManual CP", sub: "Smoke/Heat" },
+      { arrow: "alarm", label: "Signal" },
+      { type: "alarm", label: "FACP", sub: "Fire Alarm CP" },
+      { arrow: "control", label: "Start Signal" },
+      { type: "controller", label: "Fire Pump\nControl Panel", sub: "Auto/Manual" },
+      { arrow: "control", label: "Motor Start" },
+      { type: "actuator", label: "Fire Pump\nMotor", sub: "440V from ESB" },
+      { arrow: "power", label: "Water Flow" },
+      { type: "power", label: "Fire Main\nLine", sub: "7 bar pressure" },
+    ],
+    cases: [
+      {
+        title: "🚨 Fire Pump Tidak Auto-Start Saat Fire Alarm Berbunyi",
+        steps: [
+          "Manual start fire pump SEGERA dari Fire Pump Control Panel",
+          "Jangan tunggu — keselamatan jiwa prioritas utama",
+          "Cek selector switch di Control Panel — posisi AUTO atau MANUAL?",
+          "Cek Pressure Switch setting — kemungkinan set terlalu rendah atau rusak",
+          "Pastikan Emergency Switchboard menyuplai daya ke fire pump panel",
+          "Investigasi setelah kebakaran tertangani — fire pump harus selalu auto-start"
+        ]
+      },
+      {
+        title: "⚠️ Jockey Pump Terus Berjalan Tanpa Berhenti",
+        steps: [
+          "Ini mengindikasikan ada kebocoran pada fire main line",
+          "Cek semua fire hydrant valve — pastikan semua dalam keadaan tertutup rapat",
+          "Inspeksi fire hose connections dan couplings untuk kebocoran",
+          "Periksa sprinkler head yang mungkin terbuka atau rusak",
+          "Cari titik kebocoran secara sistematis per zona/deck",
+          "Perbaiki kebocoran — jockey pump seharusnya hanya bekerja intermiten"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Mengapa Emergency Fire Pump menggunakan Diesel Engine sebagai penggerak?", opts: ["Lebih murah dari motor listrik", "Untuk memastikan fire pump tetap beroperasi meski terjadi blackout total pada kapal", "Diesel lebih kuat dari motor listrik", "Aturan pelabuhan mengharuskan"], correct: 1, explain: "SOLAS mengharuskan setidaknya satu fire pump beroperasi independen dari sistem kelistrikan kapal. Emergency FP dengan diesel engine dapat start dan beroperasi bahkan saat total blackout, memberikan kemampuan fire-fighting tetap ada." },
+      { q: "Apa fungsi Jockey Pump pada sistem fire fighting kapal?", opts: ["Pompa cadangan untuk fire pump utama", "Menjaga tekanan fire main line tetap konstan dan mendeteksi kebocoran kecil", "Pompa untuk foam system", "Pompa pengisi tangki air pemadam"], correct: 1, explain: "Jockey pump (pressure maintenance pump) adalah pompa kecil yang terus menjaga tekanan di fire main line. Jika tekanan turun (kebocoran atau hydrant dibuka), jockey pump running terus dan trigger start fire pump utama." },
+      { q: "Berapa tekanan operasi normal fire main line pada kapal merchant?", opts: ["1-2 bar", "3-4 bar", "6-7 bar", "10-15 bar"], correct: 2, explain: "Fire main line biasanya dioperasikan pada tekanan 6-7 bar (87-100 psi). Tekanan ini diperlukan untuk menghasilkan jet air yang efektif dari fire hose nozzle untuk menjangkau titik api." }
+    ],
+    sim: {
+      indicators: [
+        { label: "Fire Main Pressure", val: "6.8", unit: "bar", status: "normal" },
+        { label: "Fire Pump", val: "AUTO", unit: "", status: "normal" },
+        { label: "Jockey Pump", val: "STANDBY", unit: "", status: "normal" },
+        { label: "FACP Status", val: "NORMAL", unit: "", status: "normal" },
+        { label: "Fire Alarms", val: "0", unit: "", status: "normal" },
+        { label: "Emerg. FP", val: "READY", unit: "", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate Fire Detection", type: "danger", action: "fireDetect" },
+        { label: "🟡 Simulate Pressure Drop", type: "warning", action: "pressureDrop" },
+        { label: "🔴 Simulate Main Pump Fail", type: "danger", action: "pumpFail" },
+      ]
+    }
+  },
+  {
+    id: 9,
+    icon: "📡",
+    title: "Navigation & Communication",
+    sub: "RADAR, ECDIS, GMDSS",
+    accent: "#00d4ff",
+    glow: "rgba(0,212,255,0.15)",
+    tags: ["GMDSS", "RADAR", "AIS"],
+    subtitle: "NAVIGATION & COMMUNICATION SYSTEM",
+    overview: `Sistem Navigasi & Komunikasi mencakup <strong>RADAR, ECDIS, GPS, Gyro Compass, GMDSS Radio</strong>, dan peralatan navigasi lain yang terintegrasi. Sistem ini disuplai oleh <strong>220V AC/DC 24V</strong> melalui Distribution Panel khusus dengan <strong>UPS backup</strong>. Semua peralatan memenuhi standar <strong>SOLAS Chapter V (Safety of Navigation)</strong> dan regulasi IMO.`,
+    elec: {
+      source: "220V AC dari Navigation Distribution Panel + UPS 24V DC backup",
+      motor: "Radar Scanner Motor (AC), Gyro Compass Motor (AC precision)",
+      panel: "Navigation Distribution Panel, UPS Panel, GMDSS Radio Console",
+      proteksi: [
+        { name: "UPS (Uninterruptible PS)", desc: "Backup minimum 6 jam untuk GMDSS" },
+        { name: "Surge Protection", desc: "Proteksi petir/EMI untuk antenna circuit" },
+        { name: "Battery Backup", desc: "24V DC backup untuk EPIRB, SART, VHF portable" },
+        { name: "Isolating Transformer", desc: "Isolasi galvanik untuk sensitive equipment" },
+        { name: "Voltage Regulator", desc: "Stabilisasi tegangan untuk precision instruments" },
+      ]
+    },
+    control: {
+      sensor: "GPS Receiver, Gyro Compass, RADAR Scanner, AIS Transponder, Echo Sounder",
+      controller: "ECDIS Computer, IBS (Integrated Bridge System), GMDSS Controller",
+      actuator: "Autopilot (steering control), Alarm System (BNWAS), VHF/MF/HF Transmitter",
+      alarm: "BNWAS (Bridge Navigational Watch Alarm System), AIS target alarms, Chart alarms"
+    },
+    flow: [
+      { type: "power", label: "Navigation\nDistrib Panel", sub: "220V AC/DC" },
+      { arrow: "power", label: "UPS" },
+      { type: "controller", label: "Integrated\nBridge Sys", sub: "IBS/ECDIS" },
+      { arrow: "control", label: "NMEA 0183/2000" },
+      { type: "sensor", label: "RADAR/GPS\nGyro/AIS", sub: "Sensor Suite" },
+      { arrow: "feedback", label: "Navigation Data" },
+      { type: "actuator", label: "Autopilot\n+ Displays", sub: "Control Output" },
+      { arrow: "alarm", label: "Alarm" },
+      { type: "alarm", label: "BNWAS\n+ GMDSS", sub: "Safety Alarm" },
+    ],
+    cases: [
+      {
+        title: "🚨 RADAR Failure di Perairan Padat",
+        steps: [
+          "Aktifkan RADAR unit kedua (kapal wajib membawa 2 RADAR)",
+          "Tingkatkan kewaspadaan bridge watch — tambah lookout",
+          "Kurangi kecepatan sesuai COLREGS Rule 6 (safe speed)",
+          "Gunakan AIS untuk traffic monitoring sementara",
+          "Hubungi VTS/Port Control tentang kondisi tanpa RADAR",
+          "Setelah aman, lakukan restart sistem dan cek antenna connection"
+        ]
+      },
+      {
+        title: "⚠️ GPS Signal Loss",
+        steps: [
+          "Switch ke backup GPS receiver segera",
+          "Gunakan DR (Dead Reckoning) — kecepatan × waktu untuk estimasi posisi",
+          "Cek antenna GPS — kemungkinan tertutup benda metalik atau kabel putus",
+          "Verifikasi posisi menggunakan RADAR landmark dan chart comparison",
+          "Cek interference dari transmitter lain di kapal",
+          "Plot posisi manual setiap 15 menit sampai GPS pulih"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "BNWAS (Bridge Navigational Watch Alarm System) berfungsi untuk?", opts: ["Sistem alarm kebakaran di bridge", "Memantau kehadiran dan kewaspadaan officer on watch — alarm jika tidak ada respons dalam periode tertentu", "Sistem alarm kapal lain mendekat", "Pengontrol autopilot otomatis"], correct: 1, explain: "BNWAS dirancang untuk mendeteksi incapacitation atau ketidaklayakan officer on watch (OOW). Jika OOW tidak merespons alarm dalam 3-12 menit, sistem akan mengaktifkan alarm keras dan eskalasi ke kabin Captain." },
+      { q: "Berapa lama minimum UPS battery backup yang disyaratkan untuk sistem GMDSS?", opts: ["1 jam", "3 jam", "6 jam", "12 jam"], correct: 2, explain: "SOLAS mengharuskan GMDSS equipment memiliki battery backup minimum 6 jam. Ini memastikan kemampuan komunikasi distress tetap ada bahkan saat total blackout dalam kondisi darurat." },
+      { q: "Protokol komunikasi standar yang digunakan antara instrumen navigasi kapal adalah?", opts: ["MODBUS RTU", "NMEA 0183 / NMEA 2000", "RS-232 only", "CAN bus"], correct: 1, explain: "NMEA 0183 (serial, 4800 baud) dan NMEA 2000 (CAN-based network) adalah standar industri untuk komunikasi antar peralatan navigasi. GPS mengirim data posisi ke ECDIS, RADAR, dan autopilot via protokol NMEA." }
+    ],
+    sim: {
+      indicators: [
+        { label: "GPS Status", val: "FIXED", unit: "", status: "normal" },
+        { label: "RADAR", val: "3cm ON", unit: "", status: "normal" },
+        { label: "ECDIS", val: "ONLINE", unit: "", status: "normal" },
+        { label: "UPS Battery", val: "100", unit: "%", status: "normal" },
+        { label: "AIS Status", val: "TX/RX", unit: "", status: "normal" },
+        { label: "GMDSS", val: "WATCH", unit: "", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate GPS Failure", type: "danger", action: "gpsFail" },
+        { label: "🟡 Simulate RADAR Fault", type: "warning", action: "radarFault" },
+        { label: "🔴 Simulate GMDSS Power Loss", type: "danger", action: "gmdssLoss" },
+      ]
+    }
+  },
+  {
+    id: 10,
+    icon: "🚨",
+    title: "Safety & Emergency System",
+    sub: "BLACKOUT, GENERAL ALARM, EMCY",
+    accent: "#ff3b3b",
+    glow: "rgba(255,59,59,0.2)",
+    tags: ["Blackout", "Gen Alarm", "ACOP"],
+    subtitle: "SAFETY & EMERGENCY SYSTEM",
+    overview: `Sistem Safety & Emergency mencakup <strong>Emergency Lighting, General Alarm, Blackout System, Emergency Switchboard, dan Automatic Changeover Panel (ACP)</strong>. Sistem ini dirancang untuk tetap beroperasi dalam kondisi terburuk sesuai <strong>SOLAS Chapter II-1</strong>. Emergency Generator dengan battery bank menjamin minimal 18 jam operasi sistem darurat.`,
+    elec: {
+      source: "Emergency Generator + Battery 110V DC / 24V DC sebagai last resort backup",
+      motor: "Emergency Generator (Diesel), Battery Charger, UPS Systems",
+      panel: "Emergency Switchboard (AC 440V/220V), Battery Panel (DC 110V/220V), ACOP Panel",
+      proteksi: [
+        { name: "Automatic Changeover", desc: "ACP otomatis switch ke emergency source <45 detik" },
+        { name: "Emergency Generator Auto-Start", desc: "Auto-start dalam 30 detik setelah blackout" },
+        { name: "Battery Final Backup", desc: "110V DC battery untuk critical loads terakhir" },
+        { name: "Essential Service Priority", desc: "Load shedding otomatis non-essential loads" },
+        { name: "Blackout Prevention", desc: "Preferential trip mempertahankan generator" },
+      ]
+    },
+    control: {
+      sensor: "Voltage/Frequency Monitor (bus bar), Battery State of Charge Monitor, Emergency Generator Status",
+      controller: "ACP (Automatic Changeover Panel), Preferential Trip Controller, Emergency Switchboard Controller",
+      actuator: "Emergency Generator Starter, ACP Switching Relay, Load Shedding Relay, Emergency Lighting Switch",
+      alarm: "General Alarm, Blackout Alarm, Battery Low Alarm, Emergency Generator Fail Alarm"
+    },
+    flow: [
+      { type: "power", label: "Main\nGenerator", sub: "Normal Source" },
+      { arrow: "power", label: "Normal" },
+      { type: "controller", label: "ACOP\nPanel", sub: "Auto Changeover" },
+      { arrow: "alarm", label: "Blackout Det." },
+      { type: "alarm", label: "Emergency\nGenerator", sub: "Diesel Auto-Start" },
+      { arrow: "power", label: "Emcy Power" },
+      { type: "actuator", label: "Emergency\nSwitchboard", sub: "440V/220V" },
+      { arrow: "power", label: "DC Backup" },
+      { type: "sensor", label: "Battery\n110V/24V DC", sub: "Final Backup" },
+    ],
+    cases: [
+      {
+        title: "🚨 Total Blackout — Prosedur Restore Power",
+        steps: [
+          "Emergency Generator auto-start (30 detik) — Emergency lights aktif otomatis",
+          "ECR mengonfirmasi status semua Generator — identifikasi penyebab blackout",
+          "Start DG yang tersedia secara manual dari ECR atau Local Panel",
+          "Setelah DG berhasil start, synchronize ke bus (jika ada DG lain running)",
+          "Hubungkan load secara bertahap — jangan langsung semua sekaligus",
+          "Prioritas restore: Navigation > Fire Detection > Bilge > Steering > Propulsion",
+          "Investigasi penyebab blackout sebelum departure lagi"
+        ]
+      },
+      {
+        title: "⚠️ Emergency Generator Gagal Auto-Start",
+        steps: [
+          "Manual start Emergency Generator dari Emergency Switchboard Room",
+          "Cek starting air/battery Emergency Generator — kemungkinan depleted",
+          "Periksa low lube oil — Emergency DG tidak akan start jika L.O. low",
+          "Cek fuel supply ke Emergency Generator",
+          "Gunakan Battery Bank (110V DC) untuk critical systems sementara",
+          "Wajib ada prosedur manual starting — latih seluruh crew secara berkala"
+        ]
+      }
+    ],
+    quiz: [
+      { q: "Berapa waktu maksimum yang diizinkan untuk Emergency Generator auto-start setelah blackout kapal?", opts: ["10 detik", "30 detik", "45 detik", "5 menit"], correct: 1, explain: "SOLAS mengharuskan emergency source of electrical power (emergency generator) dapat mengambil alih suplai dalam waktu 45 detik. Namun praktik industri dan class rules umumnya mengharuskan 30 detik." },
+      { q: "Apa yang dimaksud 'Preferential Trip' dalam sistem kelistrikan kapal?", opts: ["Trip semua beban saat blackout", "Sistem yang secara otomatis melepas beban non-esensial untuk mencegah generator overload dan blackout", "Prioritas manual untuk engineer", "Trip alarm prioritas tinggi"], correct: 1, explain: "Preferential Trip (atau load shedding) adalah sistem proteksi yang secara otomatis melepas beban non-essential (AC, galley, cargo equipment) ketika generator mendekati overload — untuk mencegah total blackout yang lebih bahaya." },
+      { q: "Beban apa yang HARUS mendapat supply dari Emergency Switchboard sesuai SOLAS?", opts: ["Cargo crane dan winch", "Navigation lights, fire detection, general alarm, emergency lighting, steering gear, dan radio communications", "AC dan ventilasi cabin", "Galley dan laundry"], correct: 1, explain: "SOLAS II-1/42 mewajibkan emergency power untuk: navigation lights, general alarm, fire detection, emergency lighting di semua escape routes, steering gear, bilge pump, dan komunikasi distress (GMDSS)." }
+    ],
+    sim: {
+      indicators: [
+        { label: "Main Power", val: "NORMAL", unit: "", status: "normal" },
+        { label: "Emcy Generator", val: "STANDBY", unit: "", status: "normal" },
+        { label: "Battery 110V DC", val: "100", unit: "%", status: "normal" },
+        { label: "Emcy Lighting", val: "CHARGED", unit: "", status: "normal" },
+        { label: "General Alarm", val: "READY", unit: "", status: "normal" },
+        { label: "ACOP Status", val: "AUTO", unit: "", status: "normal" },
+      ],
+      faults: [
+        { label: "🔴 Simulate BLACKOUT", type: "danger", action: "blackout" },
+        { label: "🔴 Simulate Emcy Gen Fail", type: "danger", action: "emcyGenFail" },
+        { label: "🟡 Simulate Battery Low", type: "warning", action: "batLow2" },
+      ]
+    }
+  }
+];
+
+// ══════════════════════════════════════════
+//  RENDER SYSTEM CARDS
+// ══════════════════════════════════════════
+function renderCards() {
+  const grid = document.getElementById('systemsGrid');
+  systems.forEach(sys => {
+    const card = document.createElement('div');
+    card.className = 'sys-card';
+    card.style.setProperty('--card-accent', sys.accent);
+    card.style.setProperty('--card-glow', sys.glow);
+    card.innerHTML = `
+      <div class="card-num">SYS-${String(sys.id).padStart(2,'0')}</div>
+      <div class="card-icon">${sys.icon}</div>
+      <div class="card-title">${sys.title}</div>
+      <div class="card-sub">${sys.sub}</div>
+      <div class="card-tags">
+        ${sys.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+      </div>
+    `;
+    card.onclick = () => openModal(sys);
+    grid.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════
+//  MODAL OPEN/CLOSE
+// ══════════════════════════════════════════
+function openModal(sys) {
+  document.getElementById('modalIcon').textContent = sys.icon;
+  document.getElementById('modalTitle').textContent = sys.title;
+  document.getElementById('modalSubtitle').textContent = sys.subtitle;
+
+  // Build tabs
+  const tabs = [
+    { id: 'overview', label: '📋 Overview' },
+    { id: 'electrical', label: '⚡ Electrical' },
+    { id: 'control', label: '🎛️ Control' },
+    { id: 'diagram', label: '📊 Diagram' },
+    { id: 'cases', label: '🚨 Studi Kasus' },
+    { id: 'quiz', label: '✅ Quiz' },
+    { id: 'sim', label: '🖥️ Simulasi' },
+  ];
+
+  const tabsEl = document.getElementById('modalTabs');
+  tabsEl.innerHTML = tabs.map((t, i) => 
+    `<button class="mtab ${i===0?'active':''}" onclick="switchTab('${t.id}', this)">${t.label}</button>`
+  ).join('');
+
+  // Build body
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `
+    ${buildOverviewTab(sys)}
+    ${buildElecTab(sys)}
+    ${buildControlTab(sys)}
+    ${buildDiagramTab(sys)}
+    ${buildCasesTab(sys)}
+    ${buildQuizTab(sys)}
+    ${buildSimTab(sys)}
+  `;
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function closeOnOverlay(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+// ══════════════════════════════════════════
+//  TAB BUILDERS
+// ══════════════════════════════════════════
+function buildOverviewTab(sys) {
+  return `<div id="panel-overview" class="tab-panel active">
+    <div class="content-block">
+      <div class="block-label">System Overview</div>
+      <div class="content-text">${sys.overview}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Komponen Utama</div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-item-label">SUMBER DAYA</div><div class="info-item-value" style="font-size:13px;color:var(--white)">${sys.elec.source}</div></div>
+        <div class="info-item"><div class="info-item-label">PANEL UTAMA</div><div class="info-item-value" style="font-size:13px;color:var(--white)">${sys.elec.panel}</div></div>
+        <div class="info-item"><div class="info-item-label">CONTROLLER</div><div class="info-item-value" style="font-size:13px;color:var(--white)">${sys.control.controller}</div></div>
+        <div class="info-item"><div class="info-item-label">ALARM SISTEM</div><div class="info-item-value" style="font-size:13px;color:var(--white)">${sys.control.alarm}</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildElecTab(sys) {
+  return `<div id="panel-electrical" class="tab-panel">
+    <div class="content-block">
+      <div class="block-label">Sumber Listrik</div>
+      <div class="content-text">${sys.elec.source}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Motor / Penggerak</div>
+      <div class="content-text">${sys.elec.motor}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Panel Kontrol</div>
+      <div class="content-text">${sys.elec.panel}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Sistem Proteksi</div>
+      <div class="protection-list">
+        ${sys.elec.proteksi.map(p => `
+          <div class="prot-item">
+            <div class="prot-name">${p.name}</div>
+            <div class="prot-desc">${p.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildControlTab(sys) {
+  return `<div id="panel-control" class="tab-panel">
+    <div class="content-block">
+      <div class="block-label">Sensor (Input)</div>
+      <div class="content-text">${sys.control.sensor}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Controller (Proses)</div>
+      <div class="content-text">${sys.control.controller}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Actuator (Output)</div>
+      <div class="content-text">${sys.control.actuator}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Alarm System</div>
+      <div class="content-text">${sys.control.alarm}</div>
+    </div>
+    <div class="content-block">
+      <div class="block-label">Loop Kontrol S-C-A</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <div style="background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);border-radius:4px;padding:12px 16px;flex:1;min-width:140px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green);margin-bottom:6px">SENSOR (INPUT)</div>
+          <div style="font-size:13px">Mengukur kondisi fisik proses</div>
+        </div>
+        <div style="color:var(--cyan);font-size:20px;display:flex;align-items:center">→</div>
+        <div style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);border-radius:4px;padding:12px 16px;flex:1;min-width:140px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--cyan);margin-bottom:6px">CONTROLLER (PROSES)</div>
+          <div style="font-size:13px">Memproses sinyal & membuat keputusan</div>
+        </div>
+        <div style="color:var(--gold);font-size:20px;display:flex;align-items:center">→</div>
+        <div style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.3);border-radius:4px;padding:12px 16px;flex:1;min-width:140px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);margin-bottom:6px">ACTUATOR (OUTPUT)</div>
+          <div style="font-size:13px">Mengeksekusi perintah ke proses</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildDiagramTab(sys) {
+  const legendColors = [
+    { color: '#fff', label: 'Power' },
+    { color: '#00d4ff', label: 'Control Signal' },
+    { color: '#00ff88', label: 'Feedback Signal' },
+    { color: '#ff3b3b', label: 'Alarm Signal' },
+  ];
+  
+  let flowHTML = '';
+  sys.flow.forEach(item => {
+    if (item.type) {
+      flowHTML += `<div class="flow-node ${item.type}">
+        <div class="flow-node-title">${item.label.replace('\n','<br>')}</div>
+        <div class="flow-node-sub">${item.sub || ''}</div>
+      </div>`;
+    } else if (item.arrow) {
+      flowHTML += `<div class="flow-arrow arrow-${item.arrow}">
+        <div style="color:var(--muted);font-size:16px">→</div>
+        <div class="flow-arrow-label">${item.label}</div>
+      </div>`;
+    }
+  });
+
+  return `<div id="panel-diagram" class="tab-panel">
+    <div class="content-block">
+      <div class="block-label">Signal Flow Diagram</div>
+      <div class="signal-legend">
+        ${legendColors.map(l => `<div class="sig-item"><div class="sig-line" style="background:${l.color}"></div>${l.label}</div>`).join('')}
+      </div>
+      <div class="diagram-container">
+        <div class="flow-diagram">${flowHTML}</div>
+      </div>
+    </div>
+    <div class="content-block" style="margin-top:20px">
+      <div class="block-label">Keterangan Node</div>
+      <div class="info-grid">
+        <div class="info-item" style="border-left:3px solid var(--green)"><div class="info-item-label">SENSOR NODE</div><div style="font-size:13px;color:var(--white)">Input — mengukur kondisi fisik</div></div>
+        <div class="info-item" style="border-left:3px solid var(--cyan)"><div class="info-item-label">CONTROLLER NODE</div><div style="font-size:13px;color:var(--white)">Proses — memutuskan aksi kontrol</div></div>
+        <div class="info-item" style="border-left:3px solid var(--gold)"><div class="info-item-label">ACTUATOR NODE</div><div style="font-size:13px;color:var(--white)">Output — eksekusi ke proses nyata</div></div>
+        <div class="info-item" style="border-left:3px solid var(--red)"><div class="info-item-label">ALARM NODE</div><div style="font-size:13px;color:var(--white)">Notifikasi — informasi ke operator</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildCasesTab(sys) {
+  return `<div id="panel-cases" class="tab-panel">
+    <div class="content-block">
+      <div class="block-label">Studi Kasus & Troubleshooting</div>
+    </div>
+    ${sys.cases.map(c => `
+      <div class="case-study">
+        <div class="case-title">${c.title}</div>
+        <ol class="case-steps">
+          ${c.steps.map((s, i) => `<li data-n="${i+1}">${s}</li>`).join('')}
+        </ol>
+      </div>
+    `).join('')}
+    <div style="background:rgba(0,212,255,0.05);border:1px solid var(--border);border-radius:4px;padding:14px;margin-top:16px">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--cyan);margin-bottom:8px">📌 PRINSIP TROUBLESHOOTING</div>
+      <div style="font-size:13px;color:#c8dde8;line-height:1.7">
+        <strong>1. Observe</strong> — Kumpulkan semua data dan gejala yang ada<br>
+        <strong>2. Isolate</strong> — Persempit kemungkinan penyebab secara sistematis<br>
+        <strong>3. Verify</strong> — Konfirmasi penyebab sebelum melakukan perbaikan<br>
+        <strong>4. Repair</strong> — Lakukan perbaikan dan test fungsi<br>
+        <strong>5. Document</strong> — Catat di log book untuk referensi berikutnya
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildQuizTab(sys) {
+  return `<div id="panel-quiz" class="tab-panel">
+    <div class="content-block">
+      <div class="block-label">Quiz Interaktif — ${sys.title}</div>
+    </div>
+    <div class="quiz-container">
+      ${sys.quiz.map((q, qi) => `
+        <div class="quiz-q" id="quiz-${qi}">
+          <div class="quiz-question">Q${qi+1}. ${q.q}</div>
+          <div class="quiz-options">
+            ${q.opts.map((opt, oi) => `
+              <button class="quiz-option" onclick="answerQuiz(${qi}, ${oi}, ${q.correct}, '${q.explain.replace(/'/g,"\\'")}')">
+                ${String.fromCharCode(65+oi)}. ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div class="quiz-feedback" id="qfb-${qi}"></div>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function answerQuiz(qi, chosen, correct, explain) {
+  const opts = document.querySelectorAll(`#quiz-${qi} .quiz-option`);
+  if (opts[0].classList.contains('answered')) return;
+  opts.forEach(o => o.classList.add('answered'));
+  opts[chosen].classList.add(chosen === correct ? 'correct' : 'wrong');
+  if (chosen !== correct) opts[correct].classList.add('correct');
+  const fb = document.getElementById('qfb-' + qi);
+  fb.classList.add('show', chosen === correct ? 'correct' : 'wrong');
+  fb.textContent = (chosen === correct ? '✅ Benar! ' : '❌ Salah. ') + explain;
+}
+
+function buildSimTab(sys) {
+  const indicators = sys.sim.indicators;
+  const faults = sys.sim.faults;
+  
+  return `<div id="panel-sim" class="tab-panel">
+    <div class="content-block">
+      <div class="block-label">Simulasi Gangguan — ${sys.title}</div>
+    </div>
+    <div class="sim-container">
+      <div class="sim-panel">
+        <div class="sim-status-board">
+          <div class="sim-board-title">SYSTEM STATUS MONITOR</div>
+          ${indicators.map((ind, i) => `
+            <div class="sim-indicator" id="simind-${sys.id}-${i}">
+              <span class="sim-indicator-label">${ind.label}</span>
+              <span class="sim-value" id="simval-${sys.id}-${i}">${ind.val}${ind.unit ? ' '+ind.unit : ''}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="sim-status-board">
+          <div class="sim-board-title">SYSTEM LOG</div>
+          <div class="sim-log" id="simlog-${sys.id}">
+            <div class="log-entry"><span class="log-time">[00:00]</span><span class="log-normal">System normal — all parameters nominal</span></div>
+            <div class="log-entry"><span class="log-time">[00:01]</span><span class="log-normal">Monitoring active — ${sys.title}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sim-controls">
+        ${faults.map(f => `
+          <button class="sim-btn ${f.type}" onclick="runSimFault(${sys.id}, '${f.action}', this)">${f.label}</button>
+        `).join('')}
+        <button class="sim-btn reset" onclick="resetSim(${sys.id})">↺ Reset Normal</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+//  SIMULATION ENGINE
+// ══════════════════════════════════════════
+const simStates = {};
+
+function addLog(sysId, msg, type = 'normal') {
+  const log = document.getElementById('simlog-' + sysId);
+  if (!log) return;
+  const now = new Date();
+  const t = `${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<span class="log-time">[${t}]</span><span class="log-${type}">${msg}</span>`;
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+function setVal(sysId, idx, val, status = 'normal') {
+  const el = document.getElementById(`simval-${sysId}-${idx}`);
+  if (!el) return;
+  el.textContent = val;
+  el.className = 'sim-value' + (status !== 'normal' ? ` ${status}` : '');
+}
+
+function runSimFault(sysId, action, btn) {
+  simStates[sysId] = action;
+  addLog(sysId, `⚡ Fault simulation activated: ${action.toUpperCase()}`, 'warn');
+  
+  // Generic fault simulation per action name
+  const faultMap = {
+    loPress: (id) => { setVal(id,1,'0.8 bar','alarm'); setVal(id,0,'95 rpm','warn'); addLog(id,'⚠️ LOW L.O. PRESSURE — Pre-alarm active','alarm'); addLog(id,'⚡ Engine SLOWDOWN initiated','alarm'); },
+    highJW: (id) => { setVal(id,2,'92 °C','alarm'); addLog(id,'⚠️ HIGH JACKET WATER TEMP — Alarm!','alarm'); addLog(id,'→ Check cooling water flow and heat exchanger','warn'); },
+    overspeed: (id) => { setVal(id,0,'139 rpm','alarm'); addLog(id,'🚨 OVERSPEED TRIP — Engine shutdown!','alarm'); addLog(id,'→ Governor failure suspected — check fuel rack','warn'); },
+    motorOverload: (id) => { setVal(id,4,'38.2 A','alarm'); setVal(id,0,'TRIPPED','alarm'); addLog(id,'🚨 MOTOR OVERLOAD TRIP — Thermal relay activated','alarm'); addLog(id,'→ Check motor temperature and mechanical load','warn'); },
+    highBilge: (id) => { setVal(id,3,'95 cm','warn'); setVal(id,0,'RUNNING','normal'); addLog(id,'⚠️ HIGH BILGE LEVEL — Auto-start activated','warn'); },
+    phaseFail: (id) => { setVal(id,5,'Phase R: 0V','alarm'); addLog(id,'🚨 PHASE FAILURE DETECTED — Phase R loss','alarm'); addLog(id,'→ Investigate switchboard and fuse R-phase','warn'); },
+    dgTrip: (id) => { setVal(id,0,'0 V','alarm'); setVal(id,4,'0 V','alarm'); setVal(id,5,'0 kW','alarm'); addLog(id,'🚨 DG No.1 TRIP — BLACKOUT CONDITION!','alarm'); addLog(id,'→ Emergency Generator auto-starting...','warn'); setTimeout(()=>addLog(id,'✅ Emergency Generator online — Emergency loads restored','normal'),2000); },
+    overload: (id) => { setVal(id,5,'1040 kW','warn'); addLog(id,'⚠️ OVERLOAD WARNING — Total load 104% of rating','warn'); addLog(id,'→ Shed non-essential loads immediately','warn'); },
+    uvTrip: (id) => { setVal(id,0,'362 V','alarm'); addLog(id,'🚨 UNDER-VOLTAGE TRIP — Generator ACB open','alarm'); },
+    earthFault: (id) => { setVal(id,3,'28 mA','alarm'); addLog(id,'🚨 EARTH FAULT DETECTED — Insulation resistance low','alarm'); addLog(id,'→ Locate fault using half-and-half isolation method','warn'); },
+    busOverload: (id) => { setVal(id,1,'1120 A','alarm'); addLog(id,'⚠️ BUS OVERLOAD — Current exceeds rating','alarm'); },
+    busFault: (id) => { setVal(id,0,'0 V','alarm'); setVal(id,4,'0 V','alarm'); addLog(id,'🚨 BUS FAULT — ACB TRIP — Distribution lost','alarm'); },
+    plcFault: (id) => { setVal(id,0,'CPU FAULT','alarm'); setVal(id,2,'OFFLINE','alarm'); addLog(id,'🚨 PLC CPU FAULT — Control system offline','alarm'); addLog(id,'→ Switch all critical systems to MANUAL','warn'); },
+    sensorFault: (id) => { setVal(id,3,'5 ALARMS','alarm'); addLog(id,'⚠️ MULTIPLE SENSOR FAULTS detected','warn'); addLog(id,'→ Check 4-20mA loops and transmitter power','warn'); },
+    netLoss: (id) => { setVal(id,5,'FAULT','alarm'); setVal(id,2,'TIMEOUT','alarm'); addLog(id,'⚠️ NETWORK COMMUNICATION LOSS — IAS offline','warn'); addLog(id,'→ Check Ethernet cables and switch modules','warn'); },
+    craneOverload: (id) => { setVal(id,1,'28.5 ton','alarm'); addLog(id,'🚨 CRANE OVERLOAD — SWL (25T) EXCEEDED!','alarm'); addLog(id,'→ Hoist STOPPED — reduce load immediately','warn'); },
+    highWind: (id) => { setVal(id,3,'32.5 kn','alarm'); addLog(id,'⚠️ HIGH WIND SPEED — Crane operation STOPPED','alarm'); addLog(id,'→ Secure crane — wind >30kn = no crane ops','warn'); },
+    limitSW: (id) => { setVal(id,5,'28 Hz','warn'); setVal(id,2,'LIMIT HIT','alarm'); addLog(id,'🚨 LIMIT SWITCH ACTIVATED — Hoist at maximum height','alarm'); addLog(id,'→ Cannot hoist further — lower load','warn'); },
+    batLow: (id) => { setVal(id,0,'19.8 V','alarm'); setVal(id,1,'62 %','warn'); addLog(id,'🚨 BATTERY CRITICAL LOW — LSA system compromised!','alarm'); addLog(id,'→ Check battery charger immediately — SOLAS violation risk','warn'); },
+    alarmFail: (id) => { setVal(id,3,'FAULT','alarm'); addLog(id,'🚨 GENERAL ALARM SYSTEM FAULT — Circuit open','alarm'); addLog(id,'→ Inspect alarm bell circuits and FACP connections','warn'); },
+    davitFault: (id) => { setVal(id,2,'FAULT','alarm'); addLog(id,'🚨 DAVIT MOTOR FAULT — Cannot operate electrically','alarm'); addLog(id,'→ Use MANUAL GRAVITY release — check battery voltage','warn'); },
+    fireDetect: (id) => { setVal(id,3,'FIRE ZONE 4','alarm'); setVal(id,4,'1 ALARM','alarm'); addLog(id,'🚨 FIRE DETECTED — ENGINE ROOM ZONE 4!','alarm'); addLog(id,'→ FACP activating — Fire pump auto-starting','alarm'); setTimeout(()=>{ setVal(id,1,'RUNNING','normal'); addLog(id,'✅ Fire Pump started — 6.8 bar pressure','normal'); },1500); },
+    pressureDrop: (id) => { setVal(id,0,'2.1 bar','alarm'); setVal(id,2,'RUNNING','normal'); addLog(id,'⚠️ FIRE MAIN PRESSURE DROP — Jockey pump starting','warn'); addLog(id,'→ Investigate for open hydrant or leakage','warn'); },
+    pumpFail: (id) => { setVal(id,1,'FAULT','alarm'); addLog(id,'🚨 MAIN FIRE PUMP FAILURE!','alarm'); addLog(id,'→ Emergency Fire Pump (diesel) auto-starting...','warn'); setTimeout(()=>addLog(id,'✅ Emergency Fire Pump running on diesel power','normal'),2000); },
+    gpsFail: (id) => { setVal(id,0,'NO FIX','alarm'); addLog(id,'🚨 GPS SIGNAL LOSS — Position unknown','alarm'); addLog(id,'→ Switch to backup GPS — use Dead Reckoning','warn'); },
+    radarFault: (id) => { setVal(id,1,'FAULT','alarm'); addLog(id,'🚨 RADAR FAILURE — No target display','alarm'); addLog(id,'→ Switch to radar unit 2 — reduce speed','warn'); },
+    gmdssLoss: (id) => { setVal(id,3,'32 %','warn'); addLog(id,'⚠️ GMDSS UPS LOW — Battery at 32%','warn'); addLog(id,'→ Check UPS charger — critical for distress comms','warn'); },
+    blackout: (id) => {
+      setVal(id,0,'BLACKOUT','alarm'); setVal(id,4,'0 %','alarm');
+      addLog(id,'🚨 TOTAL BLACKOUT — ALL POWER LOST','alarm');
+      setTimeout(()=>{ addLog(id,'⏱️ 0:05 — Emergency lighting activated from battery','warn'); },500);
+      setTimeout(()=>{ addLog(id,'⏱️ 0:15 — Emergency Generator cranking...','warn'); },1500);
+      setTimeout(()=>{ setVal(id,1,'RUNNING','normal'); addLog(id,'✅ 0:28 — Emergency Generator ONLINE — Emcy Swbd energized','normal'); },3000);
+    },
+    emcyGenFail: (id) => { setVal(id,1,'FAILED','alarm'); addLog(id,'🚨 EMERGENCY GENERATOR FAIL TO START!','alarm'); addLog(id,'→ Manual start required — check fuel & starting battery','warn'); addLog(id,'→ Switch to Battery 110V DC for critical loads','warn'); },
+    batLow2: (id) => { setVal(id,2,'28 %','warn'); addLog(id,'⚠️ EMERGENCY BATTERY LOW — 28%','warn'); addLog(id,'→ Charge battery immediately — critical backup at risk','warn'); },
+  };
+
+  if (faultMap[action]) {
+    faultMap[action](sysId);
+  }
+}
+
+function resetSim(sysId) {
+  const sys = systems.find(s => s.id === sysId);
+  if (!sys) return;
+  sys.sim.indicators.forEach((ind, i) => {
+    setVal(sysId, i, ind.val + (ind.unit ? ' '+ind.unit : ''), ind.status);
+  });
+  const log = document.getElementById('simlog-' + sysId);
+  if (log) {
+    log.innerHTML = `
+      <div class="log-entry"><span class="log-time">[00:00]</span><span class="log-normal">System RESET — all parameters restored to normal</span></div>
+      <div class="log-entry"><span class="log-time">[00:01]</span><span class="log-normal">Monitoring active — ${sys.title}</span></div>
+    `;
+  }
+  simStates[sysId] = null;
+  addLog(sysId, '✅ All systems nominal', 'normal');
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderCards();
+});
+</script>
+</body>
+</html>
